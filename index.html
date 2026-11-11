@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Manual do Explicador</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Marca CEO (Guia de Boas-Vindas): gradiente laranja, Poppins, páginas brancas com títulos a laranja.
+     Layout: índice lateral + coluna de leitura; vídeos em destaque logo após a capa. */
+  --o1:#F5AC43;   /* laranja claro (início do gradiente) */
+  --o2:#ED772F;   /* laranja forte (fim do gradiente, títulos) */
+  --grad:linear-gradient(135deg,#F5AC43 0%,#F0943F 45%,#ED772F 100%);
+  --ink:#1F1F24;
+  --text:#34343C;
+  --muted:#6E6E78;
+  --bg:#FFFFFF;
+  --soft:#FFF5EC;  /* creme laranja suave para cartões */
+  --line:#F1E3D6;
+  --green:#22A060; --amber:#F2B01E; --red:#E2463F;
+  --font:"Poppins", "Segoe UI", system-ui, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:24px}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--text);font:400 16px/1.7 var(--font)}
+a{color:var(--o2);text-underline-offset:3px;font-weight:500}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--ink);outline-offset:2px;border-radius:6px}
+h1,h2,h3{font-family:var(--font);color:var(--ink);text-wrap:balance;line-height:1.2;margin:0}
+h2{font-size:clamp(26px,3vw,34px);font-weight:800;color:var(--o2)}
+h3{font-size:18px;font-weight:700}
+p{margin:0}
+ul,ol{margin:0;padding-left:1.2em}
+li+li{margin-top:.35em}
+strong{color:var(--ink);font-weight:600}
+
+/* Capa */
+.cover{background:var(--grad);color:#fff;position:relative;overflow:hidden}
+.cover::before,.cover::after{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.08)}
+.cover::before{width:620px;height:620px;right:-180px;top:-300px}
+.cover::after{width:900px;height:420px;left:-200px;bottom:-300px;background:rgba(255,255,255,.06)}
+.cover-in{max-width:1180px;margin:0 auto;padding:16px 24px 20px;position:relative;z-index:1;display:grid;gap:8px}
+.cover-top{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.cover-top img{width:48px;height:48px}
+.cover-top span{font-weight:600;font-size:12px;letter-spacing:.14em;text-transform:uppercase}
+.cover h1{color:#fff;font-size:clamp(22px,2.4vw,26px);font-weight:800}
+.cover p.sub{font-size:14.5px;font-weight:600;max-width:46ch}
+.cover p.intro{max-width:62ch;opacity:.95}
+.cover .sign{font-size:14px;opacity:.9}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+.welcome{display:grid;gap:6px;max-width:65ch}
+.welcome .sign{font-size:14px;color:var(--muted);font-style:italic}
+.pills span{border:1.5px solid rgba(255,255,255,.85);border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600}
+
+.shell{display:grid;grid-template-columns:240px minmax(0,1fr);max-width:1180px;margin:0 auto;gap:56px;padding:0 24px}
+aside{position:sticky;top:0;align-self:start;max-height:100vh;overflow:auto;padding:36px 0}
+.brand{display:flex;gap:10px;align-items:center;margin-bottom:24px}
+.brand .lg{width:44px;height:44px;border-radius:12px;background:var(--grad);display:grid;place-items:center;flex:none}
+.brand .lg img{width:38px;height:38px}
+.brand b{font-weight:700;font-size:14px;color:var(--ink);display:block;line-height:1.25}
+.brand small{color:var(--muted);font-size:12.5px}
+nav ol{list-style:none;padding:0;margin:0;display:grid;gap:2px}
+nav li+li{margin-top:0}
+nav a{display:flex;gap:10px;padding:7px 10px;border-radius:8px;color:var(--text);text-decoration:none;font-size:14px;font-weight:500}
+nav a:hover{background:var(--soft);color:var(--o2)}
+nav a span{font-weight:700;font-size:12px;color:var(--o1);min-width:20px;line-height:2}
+nav a.nv{background:var(--grad);color:#fff;font-weight:600;margin:6px 0}
+nav a.nv span{color:#fff}
+
+main{padding:44px 0 96px;max-width:780px;display:grid;gap:64px;min-width:0}
+
+/* Essencial */
+.quick{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.qcard{background:var(--soft);border-radius:16px;padding:18px;display:grid;gap:4px;align-content:start}
+.qcard .k{font-weight:600;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--o2)}
+.qcard .v{font-weight:800;font-size:21px;line-height:1.2;color:var(--ink)}
+.qcard p{font-size:14px;color:var(--muted);line-height:1.5}
+
+section{display:grid;gap:20px}
+.sec-head{display:grid;gap:6px}
+.num{font-weight:700;font-size:14px;color:var(--o1)}
+.lead{color:var(--muted);max-width:65ch}
+.prose{display:grid;gap:12px;max-width:65ch}
+
+/* Vídeos em destaque */
+.videos{background:#F6EADB;border-radius:24px;padding:32px;display:grid;gap:24px;color:var(--text)}
+.videos h2{color:var(--o2)}
+.videos .num{color:var(--o2)}
+.videos .lead{color:#6B5A4A}
+.vgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.vcard{display:grid;grid-template-rows:auto 1fr;background:#fff;border-radius:16px;overflow:hidden;text-decoration:none;color:var(--ink);box-shadow:0 2px 10px rgba(150,90,30,.08);transition:transform .15s}
+.vcard:hover{transform:translateY(-2px)}
+.vcard:hover .thumb .pl{transform:scale(1.08)}
+@media (prefers-reduced-motion: reduce){.vcard,.thumb .pl{transition:none}.vcard:hover{transform:none}}
+.thumb{aspect-ratio:16/8;background:var(--grad);position:relative;display:grid;place-items:center}
+.thumb .pl{width:58px;height:58px;border-radius:50%;background:#fff;display:grid;place-items:center;box-shadow:0 6px 20px rgba(0,0,0,.18);transition:transform .15s}
+.thumb .pl svg{width:24px;height:24px;fill:var(--o2);margin-left:3px}
+.thumb .badge{position:absolute;top:12px;left:12px;background:var(--ink);color:#fff;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border-radius:999px;padding:4px 10px}
+.thumb .step{position:absolute;bottom:10px;right:14px;font-weight:800;font-size:34px;color:rgba(255,255,255,.55);line-height:1}
+.vcard .meta{padding:14px 16px 16px;display:grid;gap:2px}
+.vcard .meta b{font-weight:700;font-size:16px;line-height:1.3}
+.vcard .meta small{color:var(--muted);font-size:13.5px;line-height:1.45}
+
+.lib{display:grid;gap:18px}
+.lib h3{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--o2)}
+.lgrid{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.lgrid li{margin:0}
+.lgrid a{display:flex;gap:12px;align-items:center;background:#fff;border-radius:12px;padding:10px 12px;text-decoration:none;color:var(--ink);font-weight:500;font-size:14px;line-height:1.35;height:100%}
+.lgrid a:hover{background:#FFFBF6;box-shadow:0 0 0 1.5px var(--o1)}
+.lgrid .mini{flex:none;width:44px;height:44px;border-radius:10px;background:var(--grad);display:grid;place-items:center}
+.lgrid .mini svg{width:16px;height:16px;fill:#fff;margin-left:2px}
+.lgrid a small{display:block;color:var(--o2);font-weight:700;font-size:11.5px;font-variant-numeric:tabular-nums}
+.lgrp{display:grid;gap:10px}
+
+/* botão de vídeo dentro das secções */
+.vbtn{display:inline-flex;align-items:center;gap:12px;background:var(--grad);color:#fff;text-decoration:none;border-radius:14px;padding:10px 18px 10px 10px;justify-self:start;box-shadow:0 6px 16px rgba(237,119,47,.25)}
+.vbtn:hover{filter:brightness(1.04)}
+.vbtn svg{width:36px;height:36px;padding:10px 9px 10px 11px;border-radius:50%;background:#fff;fill:var(--o2);flex:none}
+.vbtn span{display:grid;font-size:11.5px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;line-height:1.3}
+.vbtn b{font-size:15px;letter-spacing:0;text-transform:none;font-weight:700;color:#fff}
+.vrow{display:flex;flex-wrap:wrap;gap:10px}
+
+.pillars{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pillar{background:var(--soft);border-radius:16px;padding:18px;display:grid;gap:6px;align-content:start}
+.pillar h3{color:var(--o2)}
+.pillar p{font-size:14.5px;line-height:1.6}
+
+.callout{background:var(--bg);border:1.5px solid var(--line);border-left:5px solid var(--o1);border-radius:12px;padding:16px 18px;display:grid;gap:8px}
+.callout.info{border-left-color:var(--o2)}
+.callout.warn{border-left-color:var(--red)}
+.callout h3{font-size:16px}
+.callout ul,.callout p{font-size:15px}
+
+.rules{list-style:none;padding:0;counter-reset:r;display:grid;gap:10px}
+.rules>li{counter-increment:r;background:var(--soft);border-radius:14px;padding:16px 18px 16px 66px;position:relative;margin:0}
+.rules>li::before{content:counter(r,decimal-leading-zero);position:absolute;left:18px;top:14px;font-weight:800;font-size:22px;line-height:1;color:var(--o2)}
+.rules h3{font-size:16.5px;margin-bottom:4px}
+.rules p{font-size:15px}
+
+.profile{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--o1);border-radius:999px;padding:5px 14px;font-weight:600;font-size:13.5px;color:var(--o2)}
+
+.steps{list-style:none;padding:0;display:grid;border-left:2px solid var(--line);margin-left:10px}
+.steps li{position:relative;padding:0 0 16px 26px;margin:0}
+.steps li::before{content:"";position:absolute;left:-7px;top:8px;width:12px;height:12px;border-radius:50%;background:var(--o2)}
+.steps b{color:var(--ink);font-weight:600}
+
+.split{display:grid;gap:14px}
+.bar-row{display:grid;gap:6px}
+.bar-row h3{font-size:16px}
+.bar{display:flex;border-radius:12px;overflow:hidden;min-height:52px}
+.bar div{padding:8px 10px;font-size:12.5px;line-height:1.25;display:flex;flex-direction:column;justify-content:center;color:#fff;min-width:0}
+.bar div b{color:#fff;font-weight:800;font-size:15px}
+.s1{background:#F7C27A}.s2{background:#F5AC43}.s3{background:#F0943F}.s4{background:#E0631E}
+.s1,.s1 b{color:#5A3207 !important}
+.legend{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;font-size:14px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px;vertical-align:1px}
+.l1::before{background:#F7C27A}.l2::before{background:#F5AC43}.l3::before{background:#F0943F}.l4::before{background:#E0631E}
+
+.phase{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.phase>div{background:var(--soft);border-radius:16px;padding:18px;display:grid;gap:8px;align-content:start}
+.phase .tag{font-weight:700;font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--o2)}
+.phase ul{font-size:14.5px;line-height:1.55}
+
+.semaforo{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.light{border-radius:12px;padding:14px 16px;background:var(--soft);display:flex;gap:12px;align-items:flex-start}
+.dot{width:16px;height:16px;border-radius:50%;flex:none;margin-top:5px}
+.g{background:var(--green)}.a{background:var(--amber)}.r{background:var(--red)}
+.light p{font-size:14.5px}
+
+details{background:var(--bg);border:1.5px solid var(--line);border-radius:12px}
+summary{cursor:pointer;padding:14px 18px;font-weight:600;font-size:16px;color:var(--ink);list-style:none;display:flex;justify-content:space-between;gap:12px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-size:22px;line-height:1;color:var(--o2)}
+details[open] summary::after{content:"–"}
+.dbody{padding:0 18px 18px;display:grid;gap:10px;font-size:15px}
+.acc{display:grid;gap:10px}
+.questions{display:grid;gap:6px}
+.questions li{margin:0}
+
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:15px;border:1.5px solid var(--line);border-radius:14px;overflow:hidden}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-weight:600;font-size:11.5px;text-transform:uppercase;letter-spacing:.1em;color:var(--o2);background:var(--soft)}
+tr:last-child td{border-bottom:0}
+td.n{font-variant-numeric:tabular-nums;font-weight:700;color:var(--ink);white-space:nowrap}
+
+.links{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.link{display:flex;justify-content:space-between;align-items:center;gap:12px;background:var(--soft);border-radius:14px;padding:14px 16px;text-decoration:none;color:var(--ink);font-weight:600}
+.link small{display:block;color:var(--muted);font-weight:400;font-size:13.5px}
+.link::after{content:"↗";color:var(--o2);font-weight:700}
+
+footer{color:var(--muted);font-size:13px;border-top:1px solid var(--line);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr;gap:0;padding:0 18px}
+  aside{position:static;max-height:none;padding:20px 0 0}
+  .brand{display:none}
+  nav ol{display:flex;flex-wrap:wrap;gap:6px}
+  nav a{background:var(--soft);padding:5px 12px;font-size:13px}
+  nav a.nv{margin:0}
+  nav a span{display:none}
+  main{padding-top:28px;gap:52px}
+  .lgrid{grid-template-columns:repeat(2,1fr)}
+}
+@media (max-width:640px){
+  .quick,.pillars,.phase,.semaforo,.links,.legend,.vgrid,.lgrid{grid-template-columns:1fr}
+  .videos{padding:22px 16px;border-radius:18px}
+  .bar div{font-size:0;padding:6px}
+  .bar div b{font-size:13px}
+  .rules>li{padding-left:58px}
+  .cover-top img{width:44px;height:44px}
+}
+</style>
+</head>
+<body>
+<header class="cover">
+  <div class="cover-in">
+    <div class="cover-top">
+      <img src="data:image/png;base64,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" alt="Centro de Explicações Online">
+      <span>Manual do Explicador</span>
+    </div>
+    <h1>Bem-vindo à equipa!</h1>
+    <p class="sub">Tudo o que precisas para acompanhar os teus alunos com confiança.</p>
+    <div class="pills"><span>100% online</span><span>+7 anos</span><span>Acompanhamento personalizado</span></div>
+  </div>
+</header>
+
+<div class="shell">
+<aside>
+  <div class="brand">
+    <div class="lg"><img src="data:image/png;base64,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" alt=""></div>
+    <div><b>Centro de Explicações Online</b><small>Manual do Explicador</small></div>
+  </div>
+  <nav aria-label="Índice">
+    <ol>
+      <li><a href="#boas-vindas"><span>01</span>Missão</a></li>
+      <li><a href="#pagamentos"><span>02</span>Pagamentos e recibos</a></li>
+      <li><a href="#regras"><span>03</span>Regras de sucesso</a></li>
+      <li><a href="#alunos"><span>04</span>Como recebes alunos</a></li>
+      <li><a href="#aula-experimental"><span>05</span>Aula experimental</a></li>
+      <li><a href="#explicacao"><span>06</span>Como dar uma explicação</a></li>
+      <li><a href="#testes"><span>07</span>Época de testes</a></li>
+      <li><a href="#problemas"><span>08</span>Quando corre mal</a></li>
+      <li><a href="#cancelamentos"><span>09</span>Cancelamentos</a></li>
+      <li><a href="#materiais"><span>10</span>Materiais</a></li>
+      <li><a class="nv" href="#videos"><span>▶</span>Vídeos de formação</a></li>
+    </ol>
+  </nav>
+</aside>
+
+<main>
+  <div class="welcome"><p>Se estás a ler isto, é porque acreditamos que tens o perfil ideal para ajudar os nossos alunos a alcançar os seus objetivos. Obrigada por te juntares a nós!</p><p class="sign">Juliana Vareda, Centro de Explicações Online</p></div>
+  <div class="quick" aria-label="O essencial">
+    <div class="qcard"><span class="k">Envia as tuas horas</span><span class="v">Até ao último dia do mês</span><p>Horas, aluno(s) e disciplina, para a Juliana.</p></div>
+    <div class="qcard"><span class="k">Recebes</span><span class="v">Até ao 5.º dia útil</span><p>Do mês seguinte (+ até 2 dias úteis, conforme o banco).</p></div>
+    <div class="qcard"><span class="k">Remarcações</span><span class="v">Máx. 4 por aluno</span><p>Pedidas por ti. Acima disso há desconto de 20%.</p></div>
+  </div>
+
+
+  <!-- 01 -->
+  <section id="boas-vindas">
+    <div class="sec-head"><span class="num">01</span><h2>Missão</h2></div>
+    <div class="prose">
+      <p>Os explicadores são peça central no sucesso escolar do aluno e na transmissão dos nossos valores.</p>
+      <p>O foco não é só explicar a matéria. É também ensinar <strong>hábitos de estudo, gestão de tempo e produtividade</strong>, para que o aluno ganhe a máxima autonomia.</p>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><h3>Educação</h3><p>Dar ao aluno as ferramentas para o sucesso escolar, mostrando a matéria de forma diferente da escola e promovendo o espírito crítico.</p></div>
+      <div class="pillar"><h3>Inovação</h3><p>Acompanhar o aluno com as nossas métricas internas de evolução e as nossas metodologias de estudo e gestão de tempo. E procurar sempre novas estratégias de ensino.</p></div>
+      <div class="pillar"><h3>Enjoy the Journey</h3><p>Ser feliz no caminho. Equilíbrio entre a escola e as atividades de que o aluno mais gosta.</p></div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section id="pagamentos">
+    <div class="sec-head"><span class="num">02</span><h2>Pagamentos e recibos</h2></div>
+    <table>
+      <thead><tr><th>Quando</th><th>O quê</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Último dia do mês</td><td>Enviar à Juliana: <strong>total de horas dadas</strong>, <strong>a que aluno(s)</strong> correspondem e, se aplicável, <strong>a disciplina</strong>.</td></tr>
+        <tr><td class="n">1.º–5.º dia útil</td><td>A transferência sai. Ex.: as explicações de setembro são pagas nos primeiros 5 dias úteis de outubro.</td></tr>
+        <tr><td class="n">+ até 2 dias úteis</td><td>Prazo possível até o dinheiro chegar, conforme o teu banco.</td></tr>
+      </tbody>
+    </table>
+    <div class="callout warn">
+      <h3>Se as horas chegarem depois do último dia do mês</h3>
+      <p>Não conseguimos garantir o pagamento dentro do prazo.</p>
+    </div>
+    <div class="callout info">
+      <h3>Recibos verdes</h3>
+      <ul>
+        <li>As explicações estão isentas de IVA (artigo 9.º do CIVA): recebes o valor total.</li>
+        <li>Emitir os recibos é responsabilidade de cada explicador. Não damos apoio sobre como os emitir.</li>
+        <li>Para dúvidas sobre IRS e Segurança Social, fala com um contabilista: depende da tua situação.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section id="regras">
+    <div class="sec-head"><span class="num">03</span><h2>Regras de sucesso</h2><p class="lead">Um explicador do Centro de Explicações Online é:</p></div>
+    <div class="profile">
+      <span class="chip">Apaixonado pela disciplina</span>
+      <span class="chip">Focado no sucesso do aluno</span>
+      <span class="chip">Empático</span>
+      <span class="chip">Organizado</span>
+      <span class="chip">Excelente a gerir o tempo</span>
+    </div>
+    <ol class="rules">
+      <li><h3>A hora da explicação é do aluno</h3><p>Nada de telemóvel para entretenimento nem atividades pessoais. Enquanto o aluno resolve exercícios, podes preparar a próxima aula, definir o TPC ou procurar conteúdo útil para ele.</p></li>
+      <li><h3>Prepara todas as aulas</h3><p>Chega sempre com a aula e os materiais prontos. Domina a matéria para a conseguires explicar de forma simples.</p></li>
+      <li><h3>Dinamiza</h3><p>Usa exemplos da vida real e analogias ligadas aos gostos do aluno. Ferramentas úteis: Khan Academy, GeoGebra, Kahoot, YouTube, Student Hub, Escola Virtual.</p></li>
+      <li><h3>Desafia o aluno</h3><p>Exercícios de tipos diferentes e evita ao máximo dar a resposta. Se ele não conseguir sozinho, marca o exercício a vermelho para voltar a ele mais tarde.</p></li>
+      <li><h3>Partilha a tua experiência</h3><p>Mostra como chegaste ao sucesso escolar e passa-lhe as dicas e táticas que te ajudaram.</p></li>
+      <li><h3>Envia sempre trabalho de casa</h3><p>No fim de cada aula: TPC (obrigatório) e trabalho extra (opcional). O TPC mostra-nos onde o aluno tem mais dificuldades.</p></li>
+      <li><h3>Define limites</h3><p>Cria uma relação próxima, mas deixa claro quando é momento de descontrair e quando é momento de foco. Lembra-o de que vir às explicações não chega: é preciso estudar em casa. Pela proximidade de idades, és um modelo para ele. Age como tal.</p></li>
+      <li><h3>Define objetivos</h3><p>Combina com o aluno o objetivo para a disciplina e o caminho diário para lá chegar.</p></li>
+      <li><h3>Ajuda-o a organizar o estudo</h3><p>Equilíbrio entre estudo e tempo livre. Sugere um <strong>caderno de dúvidas</strong>, usado nas aulas e no estudo, com cada dúvida descrita ao detalhe para tirar na explicação.</p></li>
+      <li><h3>Dedicação</h3><p>Consegue, com o aluno, testes anteriores da escola dele e simula a sua estrutura. Faz o <strong>Scope the Subject</strong> e aplica o <a href="#semaforo">sistema semáforo</a>. Se o aluno fica nervoso com testes: reforça a confiança, mostra que errar faz parte, treina exercícios-tipo e simula um teste cronometrado com só o material permitido na secretária.</p></li>
+      <li><h3>Atenção ao bem-estar</h3><p>Avisa o Centro se sentires que o aluno passa por ansiedade, depressão, burnout ou outro desafio psicológico que afete o seu bem-estar ou aprendizagem.</p></li>
+      <li><h3>Não desistas do teu aluno</h3><p>Dá o teu melhor. Se o ambiente não estiver bom, avisa-nos cedo para decidirmos juntos.</p></li>
+      <li><h3>Reporta problemas</h3><p>Qualquer coisa que impeça o aluno de atingir os seus objetivos deve ser comunicada à equipa.</p></li>
+    </ol>
+  </section>
+
+  <!-- 04 -->
+  <section id="alunos">
+    <div class="sec-head"><span class="num">04</span><h2>Como recebes alunos</h2></div>
+    <div class="prose">
+      <p>As explicações são <strong>online</strong>. Atribuímos cada aluno ao explicador com o perfil mais compatível, com base no nosso ranking interno.</p>
+    </div>
+    <ol class="steps">
+      <li><b>Contactamos-te diretamente</b> ou <b>publicamos no grupo fechado de WhatsApp</b>: cada mensagem corresponde a um aluno. Esse grupo é só para estes anúncios. Lê, não respondas lá.</li>
+      <li><b>Se o aluno for atribuído a outra pessoa</b>, não era o mais compatível contigo. Continua a tentar: há sempre novos alunos. Não respondemos a mensagens a perguntar porquê.</li>
+      <li><b>Se o aluno for teu</b>, contacta-o e marca a <a href="#aula-experimental">aula experimental</a> (mínimo 30 minutos).</li>
+    </ol>
+    <div class="callout">
+      <h3>O que o aluno faz por conta própria</h3>
+      <ul>
+        <li><strong>Caderno de dúvidas</strong>, nas aulas da escola e no estudo.</li>
+        <li><strong>Preparação:</strong> uma leitura rápida da matéria antes de cada aula da escola.</li>
+        <li><strong>Todos os TPC</strong> que o explicador indicar.</li>
+        <li><strong>Matemática:</strong> praticar regularmente e repetir a lista até passar o máximo de vermelhos e amarelos a verde.</li>
+        <li><strong>Físico-Química:</strong> estudar em avanço, criar os próprios flashcards e repetir a lista (exercícios e teoria) até passar a verde.</li>
+      </ul>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><h3>Active recall</h3><p>Exercícios espaçados no tempo, revendo sempre matéria anterior.</p></div>
+      <div class="pillar"><h3>Time blocking</h3><p>Rotinas com blocos de tempo fixos para estudar, em vez de metas soltas do que estudar.</p></div>
+      <div class="pillar"><h3>Enjoy the journey</h3><p>Garantir que o aluno tem tempo para o que mais gosta.</p></div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section id="aula-experimental">
+    <div class="sec-head"><span class="num">05</span><h2>A aula experimental</h2><p class="lead">É a tua oportunidade de conhecer o aluno e definir metas. Dura no mínimo 30 minutos.</p></div>
+    <a class="vbtn" href="https://www.youtube.com/watch?v=oasiZSJHKAc"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span>Ver vídeo<b>Como fazer a aula experimental</b></span></a>
+    <ol class="steps">
+      <li><b>Apresenta-te.</b> Quem és, o que fazes, hobbies, curiosidades sobre ti.</li>
+      <li><b>Conhece o aluno</b> e preenche o formulário da aula experimental com as perguntas abaixo.</li>
+      <li><b>Mostra o formato das aulas:</b> online, com mesa digitalizadora ou tablet, o aluno acompanha tudo em tempo real. Explica as <a href="#explicacao">4 partes da aula</a>.</li>
+      <li><b>Apresenta o Diário do Aluno.</b> No fim de cada aula registamos onde teve mais dificuldades e o que dominou. É um dos métodos que nos distingue.</li>
+      <li><b>Explica o caderno de dúvidas</b> e porque é importante.</li>
+      <li><b>Banca de recursos.</b> O aluno tem acesso a resumos nossos (por agora, só secundário). Pede-lhe ajuda para juntar testes de anos anteriores.</li>
+      <li><b>Fecha com o ambiente das aulas:</b> um espaço de aprendizagem com momentos de descontração. Conta a história do Master-Chef (abaixo).</li>
+      <li><b>Se o aluno continuar:</b> na primeira explicação faz uma ficha de diagnóstico em Google Forms.</li>
+    </ol>
+    <div class="callout info">
+      <h3>Perguntas para conhecer o aluno</h3>
+      <ul class="questions">
+        <li>Qual é a tua relação com a disciplina?</li>
+        <li>Quais são as tuas maiores barreiras?</li>
+        <li>Quão motivado estás para subir as notas?</li>
+        <li>O que gostas de fazer nos tempos livres? <em>(Explica que o nosso foco é ele ter tempo para isso, tornando o estudo mais eficiente.)</em></li>
+        <li>Que objetivo queres atingir este ano para sentires que tiveste sucesso? E o objetivo mínimo?</li>
+        <li>Que curso gostavas de seguir? <em>(Fala da importância da média e das disciplinas de exame. Sugere o podcast <a href="https://www.youtube.com/c/TenhoM%C3%A9diaPaIsto">Tenho Média Pa'Isto</a>.)</em></li>
+      </ul>
+    </div>
+    <div class="callout">
+      <h3>A história do Master-Chef</h3>
+      <p>O explicador é um Master-Chef que escreve a receita: tudo o que o aprendiz tem de fazer para um bolo perfeito. Mas é o aprendiz que tem de seguir as quantidades à risca, e preparar a cozinha e o forno nas condições certas. Tal como o aluno tem de seguir as "quantidades" de estudo semanais e ter um espaço de estudo sem distrações (telemóvel longe).</p>
+      <p>Se seguir a receita, come um bolo delicioso. Se não seguir, o bolo sai pior. E quem o come é ele.</p>
+    </div>
+  </section>
+
+  <!-- 06 -->
+  <section id="explicacao">
+    <div class="sec-head"><span class="num">06</span><h2>Como dar uma explicação</h2><p class="lead">Todas as aulas têm 4 partes. Muda o peso de cada uma consoante a disciplina.</p></div>
+    <div class="split">
+      <div class="bar-row">
+        <h3>Matemática</h3>
+        <div class="bar" role="img" aria-label="Matemática: 10% revisão de TPC e dúvidas, 10% teoria, 10% exercício-exemplo, 70% exercícios autónomos">
+          <div class="s1" style="flex:10"><b>10%</b></div>
+          <div class="s2" style="flex:10"><b>10%</b></div>
+          <div class="s3" style="flex:10"><b>10%</b></div>
+          <div class="s4" style="flex:70"><b>70%</b>Exercícios autónomos</div>
+        </div>
+      </div>
+      <div class="bar-row">
+        <h3>Físico-Química</h3>
+        <div class="bar" role="img" aria-label="Físico-Química: 10% revisão de TPC e dúvidas, 30% teoria com exemplos do dia a dia, 20% exercício-exemplo, 40% exercícios autónomos e flashcards">
+          <div class="s1" style="flex:10"><b>10%</b></div>
+          <div class="s2" style="flex:30"><b>30%</b>Teoria</div>
+          <div class="s3" style="flex:20"><b>20%</b>Exemplo</div>
+          <div class="s4" style="flex:40"><b>40%</b>Exercícios + flashcards</div>
+        </div>
+      </div>
+      <div class="legend">
+        <span class="l1">1. Correção do TPC e caderno de dúvidas</span>
+        <span class="l2">2. Teoria (em FQ, com exemplos do dia a dia)</span>
+        <span class="l3">3. Exercício-exemplo feito por ti</span>
+        <span class="l4">4. Exercícios autónomos (revê teoria se preciso)</span>
+      </div>
+    </div>
+    <div class="vrow">
+      <a class="vbtn" href="https://www.youtube.com/watch?v=FOwEouvICMg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span>Ver vídeo<b>Explicação de Matemática</b></span></a>
+      <a class="vbtn" href="https://youtu.be/kwNnKeG6oKI"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span>Ver vídeo<b>Explicação de Físico-Química</b></span></a>
+    </div>
+
+    <div class="phase">
+      <div>
+        <span class="tag">Antes</span>
+        <h3>Prepara</h3>
+        <ul>
+          <li>Resolve os exercícios do subcapítulo (fim dos manuais + banca de recursos).</li>
+          <li>Se resolveres uma ficha sem resolução, avisa-nos para a partilharmos com os outros explicadores.</li>
+          <li>Prepara exercícios-tipo para treinar o mindset do aluno.</li>
+          <li>Inova pelo menos 1 vez por mês (GeoGebra, Khan Academy, Kahoot, YouTube).</li>
+        </ul>
+      </div>
+      <div>
+        <span class="tag">Durante</span>
+        <h3>Desafia e regista</h3>
+        <ul>
+          <li>Dificuldade crescente. Nunca dês a resposta logo: puxa por active recall. Se não sair, marca para depois e mostra um exemplo.</li>
+          <li>Exemplos reais ligados aos interesses do aluno.</li>
+          <li>Em FQ, faz um resumo visual enquanto explicas.</li>
+          <li>Testa conceitos de aulas anteriores (flashcards).</li>
+          <li>Regista o trabalho do aluno no template do Notion ou num caderno.</li>
+          <li>O aluno não precisa de tirar apontamentos: enviamos o PDF da aula.</li>
+        </ul>
+      </div>
+      <div>
+        <span class="tag">Depois</span>
+        <h3>Envia e anota</h3>
+        <ul>
+          <li>Logo a seguir, preenche o template do Notion (cerca de 2 minutos).</li>
+          <li>Envia por WhatsApp o TPC e o PDF da aula.</li>
+          <li>Junta um vídeo sobre a matéria (Student Hub, Escola Virtual, Khan Academy, YouTube).</li>
+          <li>Em FQ, o TPC pode ser um resumo do vídeo ou um vídeo de 1–2 min do aluno a explicar um conceito.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="acc">
+      <details>
+        <summary>Trabalho de casa vs. trabalho extra</summary>
+        <div class="dbody">
+          <p><strong>TPC (obrigatório):</strong> exercícios para continuar a aprender.</p>
+          <ul>
+            <li>Cerca de 20% de exercícios fáceis, para dar confiança. O resto, mais desafiantes.</li>
+            <li>Inclui sempre matéria antiga.</li>
+            <li>Se o aluno tiver muitas lacunas, aumenta a parte fácil.</li>
+          </ul>
+          <p><strong>Trabalho extra (opcional):</strong> lista de exercícios-guia, sobretudo do manual, por subcapítulo. Sugere sempre; o aluno decide se tem tempo. O objetivo é fazer a lista toda pelo menos uma vez e refazer só os que errou.</p>
+        </div>
+      </details>
+      <details>
+        <summary>O que transmitir ao aluno</summary>
+        <div class="dbody">
+          <p><strong>Caderno de dúvidas:</strong> ajuda a identificar a matéria onde tem mais dificuldades.</p>
+          <p><strong>Rotina semanal de estudo.</strong> Exemplo: 2 blocos de 1 hora (ou 1 bloco de 2 horas) por semana para a lista sugerida, incluindo o TPC. Sem telemóvel.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="callout info" id="semaforo">
+      <h3>Scope the Subject e sistema semáforo</h3>
+      <p>Depois de cada aula (por subcapítulo) e antes de cada teste, divide a matéria em tópicos e avalia o aluno em cada um.</p>
+      <a class="vbtn" href="https://www.youtube.com/watch?v=b7o09a7t4RA"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg><span>Ver vídeo<b>Sistema semáforo</b></span></a>
+    </div>
+    <div class="semaforo">
+      <div class="light"><span class="dot g"></span><p><strong>Verde</strong><br>Domina o tópico.</p></div>
+      <div class="light"><span class="dot a"></span><p><strong>Amarelo</strong><br>Sabe, mas com dúvidas.</p></div>
+      <div class="light"><span class="dot r"></span><p><strong>Vermelho</strong><br>Não consegue sozinho. Voltar a ele.</p></div>
+    </div>
+  </section>
+
+  <!-- 07 -->
+  <section id="testes">
+    <div class="sec-head"><span class="num">07</span><h2>Época de testes</h2><p class="lead">O que fazer nas 2 a 3 semanas antes do teste.</p></div>
+    <ol class="steps">
+      <li><b>Calendário.</b> Faz um calendário de estudo com o aluno.</li>
+      <li><b>Sistema semáforo.</b> Preenche o esquema de cada tópico no template e vê o que domina e o que não domina.</li>
+      <li><b>Planificação.</b> Usa as tardes livres e o fim de semana com equilíbrio, conjugando com as outras disciplinas.</li>
+      <li><b>Controla o cumprimento.</b> Pede fotografia dos exercícios feitos no sábado (ou domingo) à noite, se preciso num grupo com o encarregado de educação. Se o aluno não cumprir, avisa a equipa.</li>
+    </ol>
+    <div class="callout">
+      <h3>Dica</h3>
+      <p>Se o aluno tem 3 horas de explicação por semana, podes dar na semana do teste as horas da semana seguinte.</p>
+    </div>
+  </section>
+
+  <!-- 08 -->
+  <section id="problemas">
+    <div class="sec-head"><span class="num">08</span><h2>Quando as explicações correm mal</h2></div>
+    <ul class="prose">
+      <li><strong>Fala connosco primeiro.</strong> Contacta o Centro para te apoiarmos.</li>
+      <li><strong>Aluno no telemóvel:</strong> confronta-o e avisa que, se se repetir, informamos os pais (uma hipótese é retirar o telemóvel durante a aula).</li>
+      <li><strong>Aluno contrariado, "contra a vontade":</strong> reporta à equipa.</li>
+    </ul>
+  </section>
+
+  <!-- 09 -->
+  <section id="cancelamentos">
+    <div class="sec-head"><span class="num">09</span><h2>Cancelamentos</h2><p class="lead">Quando és tu a pedir para mudar a data de uma explicação.</p></div>
+    <table>
+      <thead><tr><th>Remarcações por aluno</th><th>Consequência</th></tr></thead>
+      <tbody>
+        <tr><td class="n">Até 4</td><td>Sem custo.</td></tr>
+        <tr><td class="n">5.ª a 7.ª</td><td>Desconto de 20% do valor dessa explicação, retirado do teu saldo do mês.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+
+  <section id="materiais">
+    <div class="sec-head"><span class="num">10</span><h2>Materiais</h2></div>
+    <div class="links">
+      <a class="link" href="https://www.escolavirtual.pt/"><span>Escola Virtual<small>Sem acesso? Fala com a Juliana.</small></span></a>
+      <a class="link" href="https://studenthub.pt/"><span>Student Hub<small>Plataforma de estudo e exercícios</small></span></a>
+    </div>
+  </section>
+
+  <section id="videos" class="videos">
+    <div class="sec-head"><span class="num">11</span><h2>Vídeos de formação</h2><p class="lead">Vê estes vídeos: são dicas para ti e para os teus alunos. Aconselhamos que os vejas na íntegra.</p></div>
+    <div class="lib">
+      <div class="lgrp"><h3>Fundamentos</h3><ul class="lgrid">
+        <li><a href="https://youtu.be/lmNhiJ846wE"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.1</small>Fundamentos da Educação</span></a></li>
+        <li><a href="https://youtu.be/78eoJ7Etxdg"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.2</small>Growth Mindset vs Fixed Mindset</span></a></li>
+        <li><a href="https://youtu.be/vJM5fpmPK2Y"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.3</small>1.ª aula após a aula experimental</span></a></li>
+        <li><a href="https://youtu.be/NFD2KbeqHzw"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.6</small>Ensinar um mau aluno vs um bom aluno</span></a></li>
+        <li><a href="https://youtu.be/dPNXPM_dtjM"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.7</small>Erros mais comuns dos explicadores</span></a></li>
+        <li><a href="https://youtu.be/MS_i8PLtL2I"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.8</small>Explicações gerais</span></a></li>
+        <li><a href="https://youtu.be/ozCn9cIAK4Q"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.12</small>Explicações online</span></a></li>
+      </ul></div>
+      <div class="lgrp"><h3>Métodos de estudo</h3><ul class="lgrid">
+        <li><a href="https://youtu.be/kp-cCrBWfIQ"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.4.1</small>Métodos de estudo</span></a></li>
+        <li><a href="https://youtu.be/rL3y8tNFzDw"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.4.2</small>Hábitos dos melhores alunos</span></a></li>
+        <li><a href="https://youtu.be/laGDE5As3qs"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.4.3</small>Estudo ativo vs passivo</span></a></li>
+        <li><a href="https://youtu.be/RtZXQeIKfWk"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>3.4.4</small>Spaced repetition com active recall</span></a></li>
+      </ul></div>
+      <div class="lgrp"><h3>Organização e motivação</h3><ul class="lgrid">
+        <li><a href="https://youtu.be/21DtFl6JqwE"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>4.1</small>Organização e produtividade</span></a></li>
+        <li><a href="https://youtu.be/z8QQuKGsMXM"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>4.2</small>Como preparar uma época de testes</span></a></li>
+        <li><a href="https://youtu.be/vIZkoCxdsQE"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>4.3</small>Uma boa rotina de estudo</span></a></li>
+        <li><a href="https://youtu.be/oOWEzMoG3vk"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>5.1</small>Como funciona a motivação</span></a></li>
+        <li><a href="https://youtu.be/3DMOU9tY1jw"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>5.2</small>Aumentar a motivação do aluno</span></a></li>
+      </ul></div>
+      <div class="lgrp"><h3>Acompanhamento</h3><ul class="lgrid">
+        <li><a href="https://youtu.be/OR2e7FM_4so"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>6.1</small>Trabalhos de casa</span></a></li>
+        <li><a href="https://youtu.be/G0sd-fV5X0c"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>6.2</small>Feedback e acompanhamento</span></a></li>
+        <li><a href="https://youtu.be/3Wnp0vaHw54"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>6.3</small>Avaliação</span></a></li>
+        <li><a href="https://youtu.be/QhlzjLlfz-o"><span class="mini"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z"/></svg></span><span><small>6.4</small>Comunicação com os pais</span></a></li>
+      </ul></div>
+    </div>
+  </section>
+
+  <footer><span>Centro de Explicações Online · Manual do Explicador</span><span>Dúvidas? Fala com a Juliana.</span></footer>
+</main>
+</div>
+</body>
+</html>
